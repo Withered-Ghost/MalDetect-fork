@@ -649,9 +649,12 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
                     Records[pos].cert_version_ratios[id] += 1;
 
                     /* get certificte extension */
-                    // STACK_OF(X509_EXTENSION) *exts = cert->cert_info->extensions;
-		    // STACK_OF(X509_EXTENSION) *exts = X509_get0_tbs_sigalg(cert)->extensions;
+
+		    // ===== Modified by WG =====
+		    // STACK_OF(X509_EXTENSION) *exts = cert->cert_info->extensions;
 		    const STACK_OF(X509_EXTENSION) *exts = X509_get0_extensions(cert);
+		    // ==========================
+
                     int num_of_exts;
                     if(exts){
                         num_of_exts = sk_X509_EXTENSION_num(exts);
@@ -711,7 +714,21 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
                     Records[pos].cert_validity_mean += pdays;
 
                     /* get key algorithms */
-                    int key_algorithm_nid =  OBJ_obj2nid(X509_get_X509_PUBKEY(cert)->algor->algorithm);
+
+		    // ===== Modified by WG =====
+                    // int key_algorithm_nid =  OBJ_obj2nid(X509_get_X509_PUBKEY(cert)->algor->algorithm);
+                    int key_algorithm_nid;
+		    X509_PUBKEY *pubkey = X509_get_X509_PUBKEY(cert);
+		    if(pubkey != NULL) {
+			X509_ALGOR *algor;
+			X509_PUBKEY_get0_param(NULL, NULL, NULL, &algor, pubkey);
+
+			key_algorithm_nid = OBJ_obj2nid(algor->algorithm);
+
+			X509_PUBKEY_free(pubkey);
+		    }
+		    // ==========================
+
                     id = get_pos_int_list(cert_key_algorithm_nid, sizeof(cert_key_algorithm_nid)/ sizeof(int), key_algorithm_nid);
                     Records[pos].cert_key_algorithm_ratios[id] += 1;
 
