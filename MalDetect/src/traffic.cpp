@@ -649,7 +649,9 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
                     Records[pos].cert_version_ratios[id] += 1;
 
                     /* get certificte extension */
-                    STACK_OF(X509_EXTENSION) *exts = cert->cert_info->extensions;
+                    // STACK_OF(X509_EXTENSION) *exts = cert->cert_info->extensions;
+		    // STACK_OF(X509_EXTENSION) *exts = X509_get0_tbs_sigalg(cert)->extensions;
+		    const STACK_OF(X509_EXTENSION) *exts = X509_get0_extensions(cert);
                     int num_of_exts;
                     if(exts){
                         num_of_exts = sk_X509_EXTENSION_num(exts);
