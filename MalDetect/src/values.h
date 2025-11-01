@@ -166,7 +166,7 @@ int cert_extension_nid[] = {
         90, 82, 83, 89, 747, 85, 86, 769, 87, 666, 401, 126, 103, 748, 857, 177, 398
 };
 
-char * cert_extension_str[] = {
+const char * cert_extension_str[] = {
         "authorityKeyIdentifier", "subjectKeyIdentifier", "keyUsage", "certificatePolicies",
         "policyMappings", "subjectAltName", "issuerAltName", "subjectDirectoryAttributes",
         "basicConstraints", "nameConstraints", "policyConstraints", "extendedKeyUsage",
@@ -177,14 +177,14 @@ char * cert_extension_str[] = {
 int cert_key_algorithm_nid[] = {
         6, 116
 };
-char *cert_key_algorithm_str[] = {
+const char *cert_key_algorithm_str[] = {
         "rsaEncryption", "dsaEncryption"
 };
 
 int cert_signature_algorithm_nid[] = {
         7, 396, 8, 65, 668, 669, 670, 671, 1145, 1146, 1144, 42
 };
-char *cert_signature_algorithm_str[] = {
+const char *cert_signature_algorithm_str[] = {
         "md2WithRSAEncryption", "md4WithRSAEncryption", "md5WithRSAEncryption", "sha1WithRSAEncryption",
         "sha256WithRSAEncryption", "sha384WithRSAEncryption", "sha512WithRSAEncryption", "sha224WithRSAEncryption",
         "sha512-224WithRSAEncryption", "sha512-256WithRSAEncryption", "sm3WithRSAEncryption", "shaWithRSAEncryption"
