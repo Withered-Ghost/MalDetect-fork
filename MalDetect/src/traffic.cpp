@@ -733,7 +733,12 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
                     Records[pos].cert_key_algorithm_ratios[id] += 1;
 
                     /* get key length */
-                    int key_length = cert->cert_info->key->public_key->length;
+		    // ===== Modified by WG =====
+                    // int key_length = cert->cert_info->key->public_key->length;
+		    const ASN1_BIT_STRING *psig;
+		    X509_get0_signature(&psig, NULL, cert);
+		    int key_length = psig->length;
+		    // ==========================
                     Records[pos].cert_key_length_mean += key_length;
 
 
