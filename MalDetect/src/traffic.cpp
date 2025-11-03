@@ -718,11 +718,11 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
 		    // ===== Modified by WG =====
                     // int key_algorithm_nid =  OBJ_obj2nid(X509_get_X509_PUBKEY(cert)->algor->algorithm);
                     int key_algorithm_nid;
-		    X509_PUBKEY *pubkey = X509_get_X509_PUBKEY(cert);
-		    if(pubkey != NULL) {
+		    X509_PUBKEY *key = X509_get_X509_PUBKEY(cert);
+		    if(key != NULL) {
 			    ASN1_OBJECT *ppkalg;
 
-			    X509_PUBKEY_get0_param(&ppkalg, NULL, NULL, NULL, pubkey);
+			    X509_PUBKEY_get0_param(&ppkalg, NULL, NULL, NULL, key);
 			    key_algorithm_nid = OBJ_obj2nid(ppkalg);
 		    }
 		    // ==========================
@@ -735,11 +735,11 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
 		    // ===== Modified by WG =====
 		    // int key_length = cert->cert_info->key->public_key->length;
 		    int key_length;
-		    pubkey = X509_get_X509_PUBKEY(cert);
-		    if(pubkey != NULL) {
+		    key = X509_get_X509_PUBKEY(cert);
+		    if(key != NULL) {
 			    const unsigned char *pk;
 
-			    X509_PUBKEY_get0_param(NULL, &pk, &key_length, NULL, pubkey);
+			    X509_PUBKEY_get0_param(NULL, &pk, &key_length, NULL, key);
 		    }
 		    // ==========================
 
@@ -749,7 +749,9 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
                     /* get signature algorithm */
 
 		    // ===== Modified by WG =====
-		    int pkey_nid = OBJ_obj2nid(cert->cert_info->signature->algorithm);
+		    // int pkey_nid = OBJ_obj2nid(cert->cert_info->signature->algorithm);
+		    const X509_ALGOR *signature = X509_get0_tbs_sigalg(cert);
+		    int pkey_nid = OBJ_obj2nid(signature->algorithm);
 		    // ==========================
 
 		    id = get_pos_int_list(cert_signature_algorithm_nid, sizeof(cert_signature_algorithm_nid)/ sizeof(int), pkey_nid);
