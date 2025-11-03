@@ -724,8 +724,6 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
 
 			    X509_PUBKEY_get0_param(&ppkalg, NULL, NULL, NULL, pubkey);
 			    key_algorithm_nid = OBJ_obj2nid(ppkalg);
-
-			    X509_PUBKEY_free(pubkey);
 		    }
 		    // ==========================
 
@@ -742,8 +740,6 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
 			    const unsigned char *pk;
 
 			    X509_PUBKEY_get0_param(NULL, &pk, &key_length, NULL, pubkey);
-
-			    X509_PUBKEY_free(pubkey);
 		    }
 		    // ==========================
 
@@ -751,9 +747,13 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
 
 
                     /* get signature algorithm */
-                    int pkey_nid = OBJ_obj2nid(cert->cert_info->signature->algorithm);
-                    id = get_pos_int_list(cert_signature_algorithm_nid, sizeof(cert_signature_algorithm_nid)/ sizeof(int), pkey_nid);
-                    Records[pos].cert_signature_algorithm_ratios[id] += 1;
+
+		    // ===== Modified by WG =====
+		    int pkey_nid = OBJ_obj2nid(cert->cert_info->signature->algorithm);
+		    // ==========================
+
+		    id = get_pos_int_list(cert_signature_algorithm_nid, sizeof(cert_signature_algorithm_nid)/ sizeof(int), pkey_nid);
+		    Records[pos].cert_signature_algorithm_ratios[id] += 1;
 
 
                     X509_free(cert);
