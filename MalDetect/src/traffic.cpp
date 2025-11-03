@@ -720,12 +720,12 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
                     int key_algorithm_nid;
 		    X509_PUBKEY *pubkey = X509_get_X509_PUBKEY(cert);
 		    if(pubkey != NULL) {
-			X509_ALGOR *algor;
-			X509_PUBKEY_get0_param(NULL, NULL, NULL, &algor, pubkey);
+			    ASN1_OBJECT *ppkalg;
 
-			key_algorithm_nid = OBJ_obj2nid(algor->algorithm);
+			    X509_PUBKEY_get0_param(&ppkalg, NULL, NULL, NULL, pubkey);
+			    key_algorithm_nid = OBJ_obj2nid(ppkalg);
 
-			X509_PUBKEY_free(pubkey);
+			    X509_PUBKEY_free(pubkey);
 		    }
 		    // ==========================
 
@@ -735,14 +735,15 @@ int Traffic::process_tls_records(u_char *cur_tls_record, int pos, int len_remain
                     /* get key length */
 
 		    // ===== Modified by WG =====
-                    // int key_length = cert->cert_info->key->public_key->length;
+		    // int key_length = cert->cert_info->key->public_key->length;
 		    int key_length;
 		    pubkey = X509_get_X509_PUBKEY(cert);
 		    if(pubkey != NULL) {
-			const unsigned char *pk;
-			X509_PUBKEY_get0_param(NULL, &pk, &key_length, NULL, pubkey);
+			    const unsigned char *pk;
 
-			X509_PUBKEY_free(pubkey);
+			    X509_PUBKEY_get0_param(NULL, &pk, &key_length, NULL, pubkey);
+
+			    X509_PUBKEY_free(pubkey);
 		    }
 		    // ==========================
 
