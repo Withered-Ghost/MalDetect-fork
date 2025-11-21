@@ -3,7 +3,9 @@ project(MalDetect)
 
 set(CMAKE_CXX_STANDARD 14)
 
-link_libraries(pcap crypto)
+link_libraries(pcap crypto openblas)
+
+# target_link_libraries(LibsModule -lopenblas)
 
 add_executable(MalDetect_cpp MalDetect.cpp MalDetect.h
         src/traffic.h src/traffic.cpp src/values.h
@@ -15,3 +17,6 @@ add_executable(MalDetect_cpp MalDetect.cpp MalDetect.h
         src/utilities.h src/utilities.cpp
         src/onlinenode.h src/onlinenode.cpp
         src/randomtest.h src/randomtest.cpp)
+
+# target_link_libraries(MalDetect_cpp LibsModule)
+

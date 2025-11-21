@@ -3,13 +3,22 @@
 //
 
 #include "MalDetect.h"
+#include <csignal>
 
+pcap_t *handle;				/* packet capture handle */
+
+void signalHandler(int signum) {
+	if(handle != NULL) {
+		fprintf(stdout, "Stopping pcap_loop...");
+		pcap_breakloop(handle);
+	}
+}
 
 int main(int argc, char *argv[]) {
+    signal(SIGINT, signalHandler);
 
-    char *dev=NULL;
+    char *dev="lo";
     char errbuf[PCAP_ERRBUF_SIZE];		/* error buffer */
-    pcap_t *handle;				/* packet capture handle */
     bpf_u_int32 mask;			/* subnet mask */
     bpf_u_int32 net;			/* ip */
     int num_packets = -1;			/* number of packets to capture */
