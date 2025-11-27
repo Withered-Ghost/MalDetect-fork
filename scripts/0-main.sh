@@ -2,11 +2,9 @@
 
 # master file to play all traffic
 
-MBPS=1000
+MBPS=100
 
-. ./1-train-legitimate.sh
-echo "Done replaying legitimate training traffic"
+. ./1-train.sh
 
-. ./2-train-botnet.sh
-echo "Done replaying malicious training traffic"
+. ./2-test.sh
 

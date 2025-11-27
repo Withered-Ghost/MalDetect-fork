@@ -91,9 +91,12 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
         return;
     }
 
+    // traffic.print_features(pos);
+
     double vec[FEATURE_VECTOR_LEN];
     traffic.get_fea_vec(pos, vec, FEATURE_VECTOR_LEN);
     int label = traffic.get_label(pos);
+    // printf("\nLabel: %d", label);
 
     Sample sample;
     sample.y = label;
@@ -103,13 +106,19 @@ void got_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *pa
         sample.x[i] = vec[i];
     }
 
+    char flow_id_str[100];
+    traffic.get_flow_id_str(pos, flow_id_str);
+    printf("<%s, tls>: ", flow_id_str);
+
     if(label==-1){
         int predict = model.eval(sample).prediction;
-        char flow_id_str[100];
-        traffic.get_flow_id_str(pos, flow_id_str);
-        printf("<%s, tls>: %s\n", flow_id_str, hp.labels[predict]);
+        // char flow_id_str[100];
+        // traffic.get_flow_id_str(pos, flow_id_str);
+        // printf("<%s, tls>: %s\n", flow_id_str, hp.labels[predict]);
+	printf("prediction: %s\n", hp.labels[predict]);
     }else{
         model.update(sample);
+	printf("label: %s\n", hp.labels[label]);
     }
 
     traffic.free_RAM(pos);

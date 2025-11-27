@@ -169,10 +169,10 @@ int Traffic::update(const u_char *packet, double packet_ts) {
             /* this is a new flow, get a flow id position for it */
             int index = get_empty_flow_pos();
             if(index==-1){
-//                for(int i=0; i< MAX_FLOWS_IN_RAM; i++){
-//                    printf("   Src port: %d\n", ntohs(Flow_id_list[i].tcp_sport));
-//                    printf("   Dst port: %d\n", ntohs(Flow_id_list[i].tcp_dport));
-//                }
+                // for(int i=0; i< MAX_FLOWS_IN_RAM; i++){
+                //     printf("   Src port: %d\n", ntohs(Flow_id_list[i].tcp_sport));
+                //     printf("   Dst port: %d\n", ntohs(Flow_id_list[i].tcp_dport));
+                // }
                 fprintf(stderr, "Too many flows: there is no extra space in RAM for new flows.");
 //                exit(EXIT_FAILURE);
                 return no_ram;

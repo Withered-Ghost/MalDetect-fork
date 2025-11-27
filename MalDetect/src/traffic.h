@@ -126,7 +126,7 @@ struct Flow{
 };
 
 /* the definition of features storage in RAM*/
-#define MAX_FLOWS_IN_RAM 1000
+#define MAX_FLOWS_IN_RAM 2000
 
 /* the Max number of packets of a specific flow */
 #define THRESHOLD_PACKETS_OF_FLOW 20
