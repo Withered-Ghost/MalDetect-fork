@@ -2,7 +2,7 @@
 
 # master file to play all traffic
 
-MBPS=100
+MBPS=150
 
 . ./1-train.sh
 

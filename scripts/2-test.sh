@@ -2,8 +2,8 @@
 
 # tcpreplay test traffic to LO
 
-printf '%(%a %d %b  - %l:%M %p)T %s\n' "Testing OnlineRF..."
-printf '%(%a %d %b  - %l:%M %p)T %s\n' "Starting replay at $MBPS Mbps..."
+printf '%(%a %d %b - %l:%M %p)T: %s\n' "-1" "Testing OnlineRF..."
+printf '%(%a %d %b - %l:%M %p)T: %s\n' "-1" "Starting replay at $MBPS Mbps..."
 
 for file in ../data/raw/legitimate/*; do
 	if command -v tcpreplay &>/dev/null; then
@@ -21,5 +21,5 @@ for file in ../data/raw/malicious/*; do
 	fi
 done
 
-printf '%(%a %d %b  - %l:%M %p)T %s\n' "Testing finished..."
+printf '%(%a %d %b - %l:%M %p)T: %s\n' "-1" "Testing finished..."
 
